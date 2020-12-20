@@ -1,26 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SeasonDisplay from "./SeasonDIsplay"
 
 class App extends React.Component {
-    // to initialize our state object
-    constructor (props) {
-        //necessary
-        super(props);
+    // State Initialization: Equivalent to creating a constructor.
+    state = { lat:null, errorMessage: '' };
 
-        this.state = {lat: null, errorMessage: ''};
-
+    componentDidMount() {
         window.navigator.geolocation.getCurrentPosition(
             // Callback #1 = Success Callback; everything goes as planned
-            (position) => {
-                //to update our state, we call setSatelo
-                this.setState({ lat: position.coords.latitude });
-            },
+            (position) => this.setState({ lat: position.coords.latitude }),
             // Failure callback; get current position is unable to determine position.
-            (err) => {
-                this.setState({ errorMessage: err.message });
-            }
+            (err) => this.setState({ errorMessage: err.message })
         );
     }
+
     //Have to define render
     render() {
         if(this.state.errorMessage && !this.state.lat) {
@@ -28,7 +22,7 @@ class App extends React.Component {
         } 
 
         if(!this.state.errorMessage && this.state.lat) {
-            return <div>Latitude: {this.state.lat}</div>
+           return <SeasonDisplay lat = {this.state.lat} />
         }
         
         return <div>Loading!</div>
