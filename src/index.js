@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from "./SeasonDIsplay"
+import Spinner from "./Spinner"
 
 class App extends React.Component {
     // State Initialization: Equivalent to creating a constructor.
@@ -15,8 +16,8 @@ class App extends React.Component {
         );
     }
 
-    //Have to define render
-    render() {
+    // Helper function; put conditionals here
+    renderContent() {
         if(this.state.errorMessage && !this.state.lat) {
             return <div>Error: {this.state.errorMessage}</div>
         } 
@@ -25,8 +26,18 @@ class App extends React.Component {
            return <SeasonDisplay lat = {this.state.lat} />
         }
         
-        return <div>Loading!</div>
+        return <Spinner message = "Allow location request..." />
+    }
 
+    //Have to define render
+    // You don't want conditionals in the render method.
+    render() {
+        return (
+            <div className="border red">
+                {this.renderContent()}
+            </div>
+            
+        )
     }
 }
 
